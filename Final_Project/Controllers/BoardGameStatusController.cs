@@ -52,15 +52,18 @@ namespace Final_Project.Controllers
         }
 
         [HttpGet("name")]
-        public async Task<ActionResult<BoardGameProperties>> Get([FromQuery] string name)
+        public async Task<ActionResult<BoardGameProperties>> Get([FromQuery] string name, [FromQuery] int page)
         {
             boardGameList = DatabaseMethods.GetAllBoardGames().Result;
 
             if (!string.IsNullOrWhiteSpace(name))
             {
                 var searchedBoardGame = boardGameList
-                    .Where(x => x.Name == name)
-                    .FirstOrDefault();
+                    .Where(x => x.Name.Contains(name))
+                    .Skip((page - 1) * 10)
+                    .Take(10)
+                    .OrderBy(x => x.Name).ToList();
+
 
                 if (searchedBoardGame == null)
                 {
