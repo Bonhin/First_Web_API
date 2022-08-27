@@ -52,7 +52,7 @@ namespace Final_Project.Controllers
         }
 
         [HttpGet("name")]
-        public async Task<ActionResult<BoardGameProperties>> Get([FromQuery] string name, [FromQuery] int page)
+        public async Task<ActionResult<BoardGameProperties>> Get([FromQuery] string name, [FromQuery] int page = 1)
         {
             boardGameList = DatabaseMethods.GetAllBoardGames().Result;
 
